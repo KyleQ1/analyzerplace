@@ -62,7 +62,7 @@ if (start_time > end_time):
 
 t1_start_time = time.perf_counter_ns()
 color, place = compute_csv('2022_place_canvas_history.csv', start_time, end_time)
-t1_end_time = int(time.perf_counter_ns() - t1_start_time) / 1000000
+t1_end_time = round(int(time.perf_counter_ns() - t1_start_time) / 1000000)
 
 print(f'Timeframe: {start_time} to {end_time}')
 print(f'Total time it took to run in ms: {t1_end_time}')
