@@ -3,13 +3,16 @@ import util
 import time
 
 start_time, end_time = util.parse_args()
+start_time = str(start_time)
+end_time = str(end_time)
+
 
 t1_start_time = time.perf_counter_ns()
-df = pd.read_csv("../2022_place_canvas_history.csv")
+df = pd.read_csv("../2022_place_canvas_history.csv", engine="pyarrow")
 
-df.query(f'timestamp > {start_time} and timestamp <= {end_time}') 
-df = df.group_by(['pixel_color', 'coordinate']).agg([
-    pd.len().alias("pixel_count")
+df =  df.loc[(df['timestamp'] > start_time) & (df['timestamp'] <= end_time)]
+df = df.groupby(['pixel_color', 'coordinate']).agg([
+    pd.count().alias("pixel_count")
 ])
 df = df.sort("pixel_count", descending=True).limit(1)
 
